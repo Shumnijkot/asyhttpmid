@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 
 import products from "./routes/products.js";
 import users from "./routes/users.js";
+import Auth from "./routes/auth";
 
 const app = express();
 
@@ -26,6 +27,8 @@ const setParsedQuery = ()=>{
     }
 }
 
+const authRoutes = new Auth();
+
 app.use(setParsedCookie());
 app.use(setParsedQuery());
 
@@ -34,5 +37,6 @@ app.get("/api", (req, res, next) =>{
 });
 app.use("/api/products", products);
 app.use("/api/users", users);
+app.use("/auth", authRoutes);
 
 export default app;

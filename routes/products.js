@@ -49,13 +49,13 @@ router.get('/:id/reviews', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    if(!req.query){
+    if(!req.body){
         res.sendStatus(500);
     }
     const ha = JSON.stringify(products);
     const sh = products.length;
     const id = md5(`${ha}-${sh}`);
-    const {name, reviews={}} = req.query;
+    const {name, reviews={}} = req.body;
     
     products.push(
         {
