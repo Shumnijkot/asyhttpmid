@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import products from "./routes/products.js";
 import users from "./routes/users.js";
 import Auth from "./routes/auth";
+import verifyJwt from "./middlewares/verifyJwt"
 
 const app = express();
 
@@ -35,8 +36,8 @@ app.use(setParsedQuery());
 app.get("/api", (req, res, next) =>{
     res.send("Not implemented");
 });
-app.use("/api/products", products);
-app.use("/api/users", users);
+app.use("/api/products", verifyJwt, products);
+app.use("/api/users", verifyJwt, users);
 app.use("/auth", authRoutes);
 
 export default app;
