@@ -32,6 +32,7 @@
     "js-md5": "^0.7.3",
     "jsonwebtoken": "^8.4.0",
     "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
     "passport-local": "^1.0.0",
     "stream-replace": "^1.0.0"
   },

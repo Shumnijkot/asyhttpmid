@@ -2,6 +2,7 @@ import express from "express";
 import session from "express-session";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import FacebookStrategy from "passport-facebook";
 
 import bodyParser from "body-parser";
 
@@ -12,6 +13,8 @@ import Auth from "./routes/auth";
 import Users from "./models/Users";
 
 import verifyJwt from "./middlewares/verifyJwt"
+
+import * as config from "./config/config.json";
 
 const app = express();
 app.use(session({
@@ -28,23 +31,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy({
-    usernameField: 'login',
-    passwordField: 'password'
-  }, function(username, password,done){
-        const users = Users;
-        const user = users.find(item=>username === item.login);
-    
-        console.log('User  here');
-        if(!user) { 
-            return done("User not found");
-        }
-        return password === user.password
-            ? done(null, user)
-            : done(null, false, { message: 'Incorrect password.' });
+passport.use(new FacebookStrategy({
+    clientID: config.appId,
+    clientSecret: config.appSecret,
+    callbackURL: "http://localhost:8080/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    const users = Users;
+    const user = users.find(user=>user.id===profile.id);
+    if(!user){
+        return cb("User not found", null);
     }
+    return cb(null, user);
+  }
 ));
-  
+
 passport.serializeUser(function(user, done) {
     done(null, user.login);
   });
