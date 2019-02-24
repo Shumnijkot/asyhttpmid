@@ -18,15 +18,16 @@ export default class Auth {
         });
         router.get("/logout", logout);
 
-        router.get("/facebook", passport.authenticate("facebook"));
+        router.get("/google", passport.authenticate('google', { scope: ['profile'] }));
 
-        router.get('/facebook/callback',
-            passport.authenticate('facebook', { failureRedirect: '/login' }),
+        router.get('/google/callback',
+            passport.authenticate('google', { failureRedirect: '/login' }),
             function(req, res) {
                 // Successful authentication, redirect home.
                 res.redirect('/');
             }
         );
+
         return router;        
     }
 

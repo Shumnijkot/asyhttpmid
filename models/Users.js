@@ -16,6 +16,10 @@ const Users = [
     {
         id: "1986685991399443",
         login: "Никита Привалов"
+    },
+    {
+        id: "102021958443359234783",
+        login: "Nikita Privalov(Google)"
     }
 ]
 

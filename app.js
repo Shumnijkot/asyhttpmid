@@ -2,7 +2,7 @@ import express from "express";
 import session from "express-session";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import FacebookStrategy from "passport-facebook";
+import GoogleStrategy from "passport-google-oauth20";
 
 import bodyParser from "body-parser";
 
@@ -31,10 +31,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new FacebookStrategy({
+passport.use(new GoogleStrategy({
     clientID: config.appId,
     clientSecret: config.appSecret,
-    callbackURL: "http://localhost:8080/auth/facebook/callback"
+    callbackURL: "http://localhost:8080/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     const users = Users;
